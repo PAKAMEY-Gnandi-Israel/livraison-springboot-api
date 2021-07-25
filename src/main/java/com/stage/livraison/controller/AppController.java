@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/test")
-@Controller
 public class AppController {
     @Autowired
     private ColisService colisService;
