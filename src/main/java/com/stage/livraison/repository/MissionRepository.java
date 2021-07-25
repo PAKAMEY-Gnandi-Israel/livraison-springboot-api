@@ -17,10 +17,10 @@ public interface MissionRepository extends JpaRepository<Colis, Long> {
     public Colis getColisByTitre(@Param("titre") String titre);
 
 
-    @Query("SELECT c FROM Colis u WHERE c.utilisateur_id = :utilisateur_id ")
+    @Query("SELECT c FROM Colis c WHERE c.client= :utilisateur_id ")
     List<Colis> findColisByUserId(@Param("utilisateur_id ") int utilisateur_id );
 
-    @Query("SELECT c FROM Colis u WHERE c.livreur_id = :livreur_id ")
+    @Query("SELECT c FROM Colis c WHERE c.livreur = :livreur_id ")
     List<Colis> findColisByLivreurId(@Param("livreur_id ") int livreur_id );
 
   /*  @Query("select * From mission m WHERE m.utilisateur_id = ?1")
