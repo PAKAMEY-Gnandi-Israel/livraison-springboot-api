@@ -36,7 +36,7 @@ public class SignupRequest {
 
     private  String sexe;
     @NotBlank
-    private int actif= 0;
+    private int actif= 1;
     @NotBlank
     private String birthday;
     @NotBlank
