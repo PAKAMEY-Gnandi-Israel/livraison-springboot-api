@@ -4,6 +4,8 @@ import com.stage.livraison.Service.ColisService;
 import com.stage.livraison.Service.UserDetailsImpl;
 import com.stage.livraison.entity.Colis;
 import com.stage.livraison.entity.Utilisateur;
+import com.stage.livraison.payload.Request.ColisRequest;
+import com.stage.livraison.payload.Request.SignupRequest;
 import com.stage.livraison.payload.Response.MessageResponse;
 import com.stage.livraison.repository.MissionRepository;
 import com.stage.livraison.repository.UtilisateurRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,29 +57,11 @@ public class AppController {
     }
     @PostMapping("/saveColis")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-    public ResponseEntity saveColis(@RequestBody Double prix,
-                                    @RequestBody  String titre,
-                                    @RequestBody  String description,
-                                    @RequestBody  String code_sec,
-                                    @RequestBody  String adresse_recup,
-                                    @RequestBody  String adresse_liv,
-                                    @RequestBody  String statut,
-                                    @RequestBody  Double longueur,
-                                    @RequestBody  Double largeur,
-                                    @RequestBody  Double hauteur,
-                                    @RequestBody  Double poids,
-                                    @RequestBody String image_av,
-                                    @RequestBody String image_ap,
-                                    @RequestBody  String date_echeance
-
-                         )
-
-
-
+    public ResponseEntity saveColis(@Valid @RequestBody ColisRequest colisRequest)
     {
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-        Utilisateur cli = utilisateurRepository.getUserByEmail(userPrincipal.getEmail());
-        colisService.saveProductToDB(prix,titre,description,adresse_recup,adresse_liv,code_sec,statut,longueur,largeur,hauteur,poids,image_av,image_ap,date_echeance,cli);
+
+        Utilisateur cli = utilisateurRepository.getUserByEmail(colisRequest.getEmail());
+        colisService.saveProductToDB(colisRequest.getPrix(),colisRequest.getTitre(),colisRequest.getDescription(),colisRequest.getAdresse_recup(),colisRequest.getAdresse_liv(),colisRequest.getCode_sec(),colisRequest.getStatut(),colisRequest.getLongueur(),colisRequest.getLargeur(),colisRequest.getHauteur(),colisRequest.getPoids(),colisRequest.getImage_av(),colisRequest.getImage_ap(),colisRequest.getDate_echeance(),cli);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
