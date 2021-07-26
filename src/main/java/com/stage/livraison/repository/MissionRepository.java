@@ -13,12 +13,20 @@ public interface MissionRepository extends JpaRepository<Colis, Long> {
 
     List<Colis> findById(int id);
 
+
     @Query("SELECT c FROM Colis c WHERE c.titre = :titre and c.statut ='livré'")
     public Colis getColisByTitre(@Param("titre") String titre);
 
+    @Query("SELECT c FROM Colis c WHERE c.statut ='livré'")
+    public List<Colis> getColisLivré();
 
     @Query("SELECT c FROM Colis c WHERE c.client= :utilisateur_id ")
     List<Colis> findColisByUserId(@Param("utilisateur_id ") int utilisateur_id );
+
+
+    @Query("SELECT c FROM Colis c WHERE c.client != :utilisateur_id ")
+    List<Colis> findColisExceptUserId(@Param("utilisateur_id ") int utilisateur_id );
+
 
     @Query("SELECT c FROM Colis c WHERE c.livreur = :livreur_id ")
     List<Colis> findColisByLivreurId(@Param("livreur_id ") int livreur_id );

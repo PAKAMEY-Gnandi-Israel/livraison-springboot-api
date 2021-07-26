@@ -4,6 +4,7 @@ import com.stage.livraison.Service.ColisService;
 import com.stage.livraison.Service.UserDetailsImpl;
 import com.stage.livraison.entity.Colis;
 import com.stage.livraison.entity.Utilisateur;
+import com.stage.livraison.payload.Response.MessageResponse;
 import com.stage.livraison.repository.MissionRepository;
 import com.stage.livraison.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,13 +84,19 @@ public class AppController {
 
     @GetMapping(value = "/userColis/{utilisateur_id}")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-    public List<Colis> afficherUnProduit(@PathVariable int utilisateur_id) {
+    public List<Colis> afficherLesColisDeUser(@PathVariable int utilisateur_id) {
         return missionRepository.findColisByUserId(utilisateur_id);
+    }
+
+    @GetMapping(value = "/notUserColis/{utilisateur_id}")
+    @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
+    public List<Colis> afficherLesColis(@PathVariable int utilisateur_id) {
+        return missionRepository.findColisExceptUserId(utilisateur_id);
     }
 
     @GetMapping(value = "/livreurColis/{livreur_id}")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-    public List<Colis> afficherUnProduitparCategorie(@PathVariable int livreur_id) {
+    public List<Colis> afficherMissionsLivreur(@PathVariable int livreur_id) {
         return missionRepository.findColisByLivreurId(livreur_id);
     }
     @GetMapping("/admin")
@@ -113,5 +120,43 @@ public class AppController {
 
         utilisateurRepository.save(utilisateur);
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(path = "/updateColisStatus", method = RequestMethod.PUT)
+    @PutMapping
+    public ResponseEntity updateColisStatus(@RequestBody String titre, @RequestBody String statut){
+        Colis savedcolis = missionRepository.getColisByTitre((titre));
+
+        savedcolis.setStatut(statut);
+
+
+        missionRepository.save(savedcolis);
+        return ResponseEntity.ok().build();
+    }
+    @RequestMapping(path = "/getColisStatus", method = RequestMethod.GET)
+    @PutMapping
+    public ResponseEntity<?>  getColisStatus(@RequestBody String titre){
+        Colis savedcolis = missionRepository.getColisByTitre((titre));
+String statut =  savedcolis.getStatut();
+
+        return ResponseEntity.ok(new MessageResponse(statut));
+    }
+
+
+    @GetMapping("/Colis")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Colis> getAllColis() {
+        return missionRepository.findAll();
+    }
+    @GetMapping("/ColisLivré")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Colis> getAllColisDelivered() {
+        return missionRepository.getColisLivré();
+    }
+
+    @GetMapping("/User")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Utilisateur> getAllUser() {
+        return utilisateurRepository.findAll();
     }
 }

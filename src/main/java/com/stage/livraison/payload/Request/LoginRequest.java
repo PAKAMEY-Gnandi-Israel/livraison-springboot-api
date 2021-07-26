@@ -10,6 +10,12 @@ public class LoginRequest {
 
     @NotBlank
     private String password;
+    @NotBlank
+    private int actif;
+
+    public int getActif() {
+        return actif;
+    }
 
     public String getEmail() {
         return email;

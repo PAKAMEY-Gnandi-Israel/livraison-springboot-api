@@ -48,6 +48,11 @@ public class AuthController {
 
     @PostMapping("/connexion")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+if (loginRequest.getActif() !=1) {
+    return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Votre compte a été désactivé!"));
+}
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
