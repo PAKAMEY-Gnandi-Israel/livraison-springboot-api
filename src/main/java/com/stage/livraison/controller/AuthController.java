@@ -60,7 +60,7 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        if ( userDetails.getActif() !=1) {
+        if ( userDetails.getActif() ==0) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Votre compte a été désactivé!"));
