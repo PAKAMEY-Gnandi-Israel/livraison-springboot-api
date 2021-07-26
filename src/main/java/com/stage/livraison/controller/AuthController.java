@@ -48,11 +48,7 @@ public class AuthController {
 
     @PostMapping("/connexion")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-if (loginRequest.getActif() !=1) {
-    return ResponseEntity
-            .badRequest()
-            .body(new MessageResponse("Votre compte a été désactivé!"));
-}
+
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -64,7 +60,11 @@ if (loginRequest.getActif() !=1) {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
+        if ( userDetails.getActif() !=1) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Votre compte a été désactivé!"));
+        }
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getNom(),
