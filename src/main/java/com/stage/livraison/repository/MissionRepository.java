@@ -14,7 +14,7 @@ public interface MissionRepository extends JpaRepository<Colis, Long> {
     List<Colis> findById(int id);
 
 
-    @Query("SELECT c FROM Colis c WHERE c.titre = :titre and c.statut ='livré'")
+    @Query("SELECT c FROM Colis c WHERE c.titre = :titre")
     public Colis getColisByTitre(@Param("titre") String titre);
 
     @Query("SELECT c FROM Colis c WHERE c.statut ='livré'")

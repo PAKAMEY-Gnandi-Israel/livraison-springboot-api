@@ -2,6 +2,7 @@ package com.stage.livraison.controller;
 
 import com.stage.livraison.Service.ColisService;
 import com.stage.livraison.Service.UserDetailsImpl;
+import com.stage.livraison.Service.UserService;
 import com.stage.livraison.entity.Colis;
 import com.stage.livraison.entity.Utilisateur;
 import com.stage.livraison.payload.Request.ColisRequest;
@@ -25,10 +26,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/api/test")
+@RequestMapping("/livraison/")
 public class AppController {
     @Autowired
     private ColisService colisService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired
@@ -46,15 +49,23 @@ public class AppController {
         return "User Content.";
     }
 
-    @PostMapping("/saveLivraison")
+    @RequestMapping(path = "/updateColisLivreur", method = RequestMethod.PUT)
+    @PutMapping
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-   public ResponseEntity saveLivraison (@Valid @RequestBody LivRequest livRequest) {
-
+   public ResponseEntity updateColisLivreur (@Valid @RequestBody LivRequest livRequest) {
         Utilisateur livreur = utilisateurRepository.getUserByEmail(livRequest.getEmail());
-      Colis colis = missionRepository.getColisByTitre(livRequest.getTitre());
+        Colis colis = missionRepository.getColisByTitre(livRequest.getTitre() );
 
-      colis.setLivreur(livreur);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        if (colis.getStatut().equals("livré") ) {
+            System.out.println("success");
+            colis.setLivreur(livreur);
+            missionRepository.save(colis);
+            return ResponseEntity.ok(new MessageResponse(colis.getStatut()));
+        }
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Ce colis n'a pas encore été livré"));
+
     }
     @PostMapping("/saveColis")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
