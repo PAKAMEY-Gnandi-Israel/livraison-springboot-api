@@ -59,9 +59,10 @@ public class AppController {
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     public ResponseEntity saveColis(@Valid @RequestBody ColisRequest colisRequest)
     {
+        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        Utilisateur client = utilisateurRepository.getUserByEmail(userPrincipal.getEmail());
 
-        Utilisateur cli = utilisateurRepository.getUserByEmail(colisRequest.getEmail());
-        colisService.saveProductToDB(colisRequest.getPrix(),colisRequest.getTitre(),colisRequest.getDescription(),colisRequest.getAdresse_recup(),colisRequest.getAdresse_liv(),colisRequest.getCode_sec(),colisRequest.getStatut(),colisRequest.getLongueur(),colisRequest.getLargeur(),colisRequest.getHauteur(),colisRequest.getPoids(),colisRequest.getImage_av(),colisRequest.getImage_ap(),colisRequest.getDate_echeance(),cli);
+        colisService.saveProductToDB(colisRequest.getPrix(),colisRequest.getTitre(),colisRequest.getDescription(),colisRequest.getAdresse_recup(),colisRequest.getAdresse_liv(),colisRequest.getCode_sec(),colisRequest.getStatut(),colisRequest.getLongueur(),colisRequest.getLargeur(),colisRequest.getHauteur(),colisRequest.getPoids(),colisRequest.getImage_av(),colisRequest.getImage_ap(),colisRequest.getDate_echeance(),client);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
