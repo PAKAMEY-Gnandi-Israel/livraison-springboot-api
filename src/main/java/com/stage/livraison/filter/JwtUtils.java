@@ -27,20 +27,13 @@ public class JwtUtils {
     public String generateJwtToken(Authentication authentication) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-        final Map<String, Object> additionalInfo = new HashMap<String, Object>();
-        additionalInfo.put("id", userPrincipal.getId()  );
-        additionalInfo.put("nom", userPrincipal.getNom()  );
-        additionalInfo.put("prenom", userPrincipal.getPrenom()  );
-        additionalInfo.put("situation professionelle", userPrincipal.getSituation_pro()  );
-        additionalInfo.put("sexe", userPrincipal.getSexe()  );
-        additionalInfo.put("adresse", userPrincipal.getAdresse()  );
+
 
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getEmail()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .setClaims(additionalInfo)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
