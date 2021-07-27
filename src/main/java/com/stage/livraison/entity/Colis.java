@@ -55,7 +55,7 @@ public class Colis extends AuditModel{
     @JsonIgnore
     private Utilisateur client;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "livreur_id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Utilisateur livreur;
