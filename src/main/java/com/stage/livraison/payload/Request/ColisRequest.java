@@ -46,6 +46,7 @@ public class ColisRequest {
     @NotBlank
     private String date_echeance;
     @NotBlank
+    @Email
     private String email;
 
     public Double getPrix() {
