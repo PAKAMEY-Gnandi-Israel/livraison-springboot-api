@@ -1,8 +1,5 @@
 package com.stage.livraison.repository;
-
-
 import com.stage.livraison.entity.Colis;
-import com.stage.livraison.entity.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,24 +17,19 @@ public interface MissionRepository extends JpaRepository<Colis, Long> {
     @Query("SELECT c FROM Colis c WHERE c.statut ='livré'")
     public List<Colis> getColisLivré();
 
-    @Query("SELECT c FROM Colis c WHERE c.client= :utilisateur_id ")
-    List<Colis> findColisByUserId(@Param("utilisateur_id ") int utilisateur_id );
+
+    @Query("SELECT c FROM Colis c WHERE c.client.id = ?1")
+    public  List<Colis> findColisByUserId( Long id );
 
 
-    @Query("SELECT c FROM Colis c WHERE c.client != :utilisateur_id ")
-    List<Colis> findColisExceptUserId(@Param("utilisateur_id ") int utilisateur_id );
 
 
-    @Query("SELECT c FROM Colis c WHERE c.livreur = :livreur_id ")
-    List<Colis> findColisByLivreurId(@Param("livreur_id ") int livreur_id );
-
-  /*  @Query("select * From mission m WHERE m.utilisateur_id = ?1")
-    List<Colis> getUserMisson(int id);
-
-    @Query("select * From mission m WHERE m.adresse = ?1")
-    List<Colis> getMissionByAdresse(String adresse);
+    @Query("SELECT c FROM Colis c WHERE c.client.id !=  ?1 ")
+    List<Colis> findColisExceptUserId( Long id );
 
 
-    @Query("select * From mission m WHERE m.statut = ?1")
-    List<Colis> getFinishedMission(String statut);*/
+    @Query("SELECT c FROM Colis c WHERE c.livreur.id = ?1")
+    public  List<Colis> findColisByLivreurId( Long id );
+
+
 }

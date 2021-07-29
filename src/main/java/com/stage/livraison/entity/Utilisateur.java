@@ -1,19 +1,21 @@
 package com.stage.livraison.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+@JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 @Entity
 @Table(name ="Utilisateur" ,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
         })
-public class Utilisateur extends AuditModel {
+public class Utilisateur extends AuditModel  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

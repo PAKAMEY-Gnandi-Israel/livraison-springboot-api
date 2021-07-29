@@ -1,16 +1,12 @@
 package com.stage.livraison.Service;
 
+import com.stage.livraison.dto.ColisDto;
 import com.stage.livraison.entity.Colis;
 import com.stage.livraison.entity.Utilisateur;
 import com.stage.livraison.repository.MissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Base64;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,5 +65,85 @@ public class ColisService {
         c.setTitre(titre);
          missionRepository.save(c);
     }
+
+
+    public List<ColisDto> getUserColis( Long id)
+    {
+
+
+        //Get all categories from repositories
+        List <Colis> colis=  missionRepository.findColisByUserId(id);
+
+        //map bdCategories to Categories dto
+
+        List<ColisDto> lCatDto = colisToColisDtoMapper(colis);
+
+
+        //return Categories dto
+        return  lCatDto;
+
+    }
+
+    public List<ColisDto> getLivreurColis( Long id)
+    {
+
+
+        //Get all categories from repositories
+        List <Colis> colis=  missionRepository.findColisByLivreurId(id);
+
+        //map bdCategories to Categories dto
+
+        List<ColisDto> lCatDto = colisToColisDtoMapper(colis);
+
+
+        //return Categories dto
+        return  lCatDto;
+
+    }
+
+    public List<ColisDto> getNotUserColis( Long id)
+    {
+
+
+        //Get all categories from repositories
+        List <Colis> colis=  missionRepository.findColisExceptUserId(id);
+
+        //map bdCategories to Categories dto
+
+        List<ColisDto> lCatDto = colisToColisDtoMapper(colis);
+
+
+        //return Categories dto
+        return  lCatDto;
+
+    }
+    private List<ColisDto> colisToColisDtoMapper(List<Colis> lesColis){
+        List<ColisDto> listColisDto = new ArrayList<>();
+
+        for (Colis colis: lesColis)  {
+
+            ColisDto categoryDto = new ColisDto();
+
+            categoryDto.setId(colis.getId());
+            categoryDto.setPrix(colis.getPrix());
+            categoryDto.setTitre(colis.getTitre());
+            categoryDto.setAdresse_liv(colis.getAdresse_liv());
+            categoryDto.setAdresse_recup(colis.getAdresse_recup());
+            categoryDto.setCode_sec(colis.getCode_sec());
+            categoryDto.setDate_echeance(colis.getDate_echeance());
+            categoryDto.setStatut(colis.getStatut());
+            categoryDto.setLongueur(colis.getLongueur());
+            categoryDto.setLargeur(colis.getLargeur());
+            categoryDto.setHauteur(colis.getHauteur());
+            categoryDto.setPoids(colis.getPoids());
+            categoryDto.setImage_av(colis.getImg_av_emball());
+            categoryDto.setImage_ap(colis.getImg_ap_emball());
+            categoryDto.setDescription(colis.getDescription());
+            listColisDto.add(categoryDto);
+
+        }
+        return listColisDto;
+    }
+
 
 }
