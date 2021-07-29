@@ -72,6 +72,12 @@ public class AppController {
         return colisService.getUserColis(id);
     }
 
+    @GetMapping(value = "/getOneColis/")
+    @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
+    public Colis recupColis (@PathVariable String titre) {
+        return missionRepository.getColisByTitre(titre);
+    }
+
 
     @GetMapping(value = "/notUserColis/{id}")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
