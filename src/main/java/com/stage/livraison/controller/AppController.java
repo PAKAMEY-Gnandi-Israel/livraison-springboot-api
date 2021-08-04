@@ -103,7 +103,7 @@ public class AppController {
         return colisService.getNotUserColis(id);
     }
 
-    @GetMapping(value = "/livreurColis/{id}r")
+    @GetMapping(value = "/livreurColis/{id}")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     public List<ColisDto> afficherMissionsLivreur(@PathVariable Long id) {
         return colisService.getLivreurColis(id);
