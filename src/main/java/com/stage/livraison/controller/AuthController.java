@@ -29,10 +29,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    Authentication authentication;
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -52,7 +54,7 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
 
-        Authentication authentication = authenticationManager.authenticate(
+         authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -129,7 +131,7 @@ public class AuthController {
     @GetMapping("/logout")
     public ResponseEntity<?> getLogoutPage(HttpServletRequest request, HttpServletResponse response){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null)
             new SecurityContextLogoutHandler().logout(request, response, authentication);
 

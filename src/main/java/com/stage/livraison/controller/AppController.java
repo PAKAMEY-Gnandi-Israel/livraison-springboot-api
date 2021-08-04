@@ -1,15 +1,19 @@
 package com.stage.livraison.controller;
 
 import com.stage.livraison.Service.ColisService;
+import com.stage.livraison.Service.PaiementService;
 import com.stage.livraison.Service.UserDetailsImpl;
 import com.stage.livraison.Service.UserService;
 import com.stage.livraison.dto.ColisDto;
 import com.stage.livraison.entity.Colis;
+import com.stage.livraison.entity.Paiement;
 import com.stage.livraison.entity.Utilisateur;
 import com.stage.livraison.payload.Request.ColisRequest;
 import com.stage.livraison.payload.Request.LivRequest;
+import com.stage.livraison.payload.Request.SinglePaiementRequest;
 import com.stage.livraison.payload.Response.MessageResponse;
 import com.stage.livraison.repository.MissionRepository;
+import com.stage.livraison.repository.PaiementRepository;
 import com.stage.livraison.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +29,13 @@ import java.util.List;
 @RequestMapping("/api/livraison")
 public class AppController {
     @Autowired
+    private PaiementService paiementService;
+    @Autowired
     private ColisService colisService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PaiementRepository paiementRepository;
     @Autowired
     private UtilisateurRepository utilisateurRepository;
     @Autowired
@@ -63,6 +71,16 @@ public class AppController {
         colisService.saveProductToDB(colisRequest.getPrix(),colisRequest.getTitre(),colisRequest.getDescription(),colisRequest.getAdresse_recup(),colisRequest.getAdresse_liv(),colisRequest.getCode_sec(),colisRequest.getStatut(),colisRequest.getLongueur(),colisRequest.getLargeur(),colisRequest.getHauteur(),colisRequest.getPoids(),colisRequest.getImage_av(),colisRequest.getImage_ap(),colisRequest.getDate_echeance(),cli);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+    @PostMapping("/savePaiement")
+    @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
+    public ResponseEntity savePaiement(@Valid @RequestBody SinglePaiementRequest singlep)
+    {
+
+        Utilisateur cli = utilisateurRepository.getUserByEmail(singlep.getEmail());
+        Colis colis = missionRepository.getColisByTitre(singlep.getTitre() );
+       paiementService.savePaiementToDB(singlep.getMontant(),cli,colis);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
 
 
 
@@ -72,7 +90,7 @@ public class AppController {
         return colisService.getUserColis(id);
     }
 
-    @GetMapping(value = "/getOneColis/")
+    @GetMapping(value = "/getOneColis/{titre}")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     public Colis recupColis (@PathVariable String titre) {
         return missionRepository.getColisByTitre(titre);
@@ -85,7 +103,7 @@ public class AppController {
         return colisService.getNotUserColis(id);
     }
 
-    @GetMapping(value = "/livreurColis/{id}")
+    @GetMapping(value = "/livreurColis/{id}r")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     public List<ColisDto> afficherMissionsLivreur(@PathVariable Long id) {
         return colisService.getLivreurColis(id);
@@ -123,6 +141,11 @@ String statut =  savedcolis.getStatut();
     @PreAuthorize("hasRole('ADMIN')")
     public List<Colis> getAllColisDelivered() {
         return missionRepository.getColisLivré();
+    }
+    @GetMapping("/allP")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Paiement> getAllPaiement() {
+        return paiementRepository.findAll();
     }
 
 }
