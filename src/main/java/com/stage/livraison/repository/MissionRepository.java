@@ -24,7 +24,7 @@ public interface MissionRepository extends JpaRepository<Colis, Long> {
 
 
 
-    @Query("SELECT c FROM Colis c WHERE c.client.id !=  ?1 ")
+    @Query("SELECT c FROM Colis c WHERE c.client.id !=  ?1 AND c.statut !='terminée'")
     List<Colis> findColisExceptUserId( Long id );
 
 
