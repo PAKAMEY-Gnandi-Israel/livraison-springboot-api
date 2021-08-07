@@ -32,7 +32,10 @@ public class JwtResponse {
         this.actif = actif;
         this.birthday = birthday;
         this.roles = roles;
+
     }
+
+
 
     public String getNom() {
         return nom;

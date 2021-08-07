@@ -9,6 +9,7 @@ import com.stage.livraison.entity.Colis;
 import com.stage.livraison.entity.Paiement;
 import com.stage.livraison.entity.Utilisateur;
 import com.stage.livraison.payload.Request.ColisRequest;
+import com.stage.livraison.payload.Request.ColisUpReq;
 import com.stage.livraison.payload.Request.LivRequest;
 import com.stage.livraison.payload.Request.SinglePaiementRequest;
 import com.stage.livraison.payload.Response.MessageResponse;
@@ -113,10 +114,10 @@ public class AppController {
 
     @RequestMapping(path = "/updateColisStatus", method = RequestMethod.PUT)
     @PutMapping
-    public ResponseEntity updateColisStatus(@RequestBody String titre, @RequestBody String statut){
-        Colis savedcolis = missionRepository.getColisByTitre((titre));
+    public ResponseEntity updateColisStatus(@Valid @RequestBody ColisUpReq cq){
+        Colis savedcolis = missionRepository.getColisByTitre((cq.getTitre()));
 
-        savedcolis.setStatut(statut);
+        savedcolis.setStatut(cq.getStatut());
 
 
         missionRepository.save(savedcolis);

@@ -1,9 +1,6 @@
 package com.stage.livraison.controller;
-
 import com.stage.livraison.Service.UserDetailsImpl;
-import com.stage.livraison.entity.ERole;
-import com.stage.livraison.entity.Role;
-import com.stage.livraison.entity.Utilisateur;
+import com.stage.livraison.entity.*;
 import com.stage.livraison.filter.JwtUtils;
 import com.stage.livraison.payload.Request.LoginRequest;
 import com.stage.livraison.payload.Request.SignupRequest;
@@ -49,11 +46,11 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
-
     @PostMapping("/connexion")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-
+        Utilisateur user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User not found."));
          authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
@@ -64,6 +61,7 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+
         if ( userDetails.getActif() ==0) {
             return ResponseEntity
                     .badRequest()
@@ -80,6 +78,7 @@ public class AuthController {
                 userDetails.getSexe(),
                 userDetails.getActif(),
                 userDetails.getBirthday(),
+
                 roles));
 
     }
@@ -128,6 +127,7 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("L'utilisateur a été enrégistré avec succès"));
     }
+
     @GetMapping("/logout")
     public ResponseEntity<?> getLogoutPage(HttpServletRequest request, HttpServletResponse response){
 
