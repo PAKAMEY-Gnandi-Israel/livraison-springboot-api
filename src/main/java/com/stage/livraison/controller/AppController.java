@@ -52,7 +52,7 @@ public class AppController {
         Utilisateur livreur = utilisateurRepository.getUserByEmail(livRequest.getEmail());
         Colis colis = missionRepository.getColisByTitre(livRequest.getTitre() );
 
-        if (colis.getStatut().equals("terminée") ) {
+        if (colis.getStatut().equals("Fin") ) {
             System.out.println("success");
             colis.setLivreur(livreur);
             missionRepository.save(colis);
