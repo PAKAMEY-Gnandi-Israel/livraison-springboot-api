@@ -14,10 +14,11 @@ public class ColisService {
     @Autowired
     private MissionRepository missionRepository;
 
-    public void  saveProductToDB(Double prix , String titre, String description,  String adresse_recup,String adresse_liv,String code_sec, String statut, Double longueur , Double largeur , Double hauteur, Double poids, String file1, String file2,String date_echeance, Utilisateur client )
+    public void  saveProductToDB(Double prix , String titre, String description,  String adresse_recup,String adresse_liv,String code_sec, String statut,String engin, Double longueur , Double largeur , Double hauteur, Double poids,String file1, String file2,String date_echeance, Utilisateur client )
     {
 
         Colis c = new Colis();
+
         /*
         String fileName1 = StringUtils.cleanPath(file1.getOriginalFilename());
         String fileName2 = StringUtils.cleanPath(file2.getOriginalFilename());
@@ -40,6 +41,7 @@ public class ColisService {
         c.setCode_sec(code_sec);
         c.setDate_echeance(date_echeance);
         c.setStatut(statut);
+        c.setEngin(engin);
         c.setLongueur(longueur);
         c.setLargeur(largeur);
         c.setHauteur(hauteur);

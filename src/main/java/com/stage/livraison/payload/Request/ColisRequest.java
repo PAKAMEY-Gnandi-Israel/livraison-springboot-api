@@ -38,7 +38,9 @@ public class ColisRequest {
     @NotBlank
 
     private  Double poids;
+    @NotBlank
 
+    private  String engin;
     @NotBlank
     private String image_av;
     @NotBlank
@@ -48,6 +50,10 @@ public class ColisRequest {
     @NotBlank
     @Email
     private String email;
+
+    public String getEngin() {
+        return engin;
+    }
 
     public Double getPrix() {
         return prix;
@@ -108,4 +114,6 @@ public class ColisRequest {
     public String getEmail() {
         return email;
     }
+
+
 }

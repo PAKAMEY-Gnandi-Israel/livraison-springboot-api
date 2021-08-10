@@ -33,7 +33,8 @@ public class Colis extends AuditModel implements Serializable {
     private String code_sec;
     @Column(nullable = false )
     private String statut;
-
+    @Column(nullable = false )
+    private String engin;
     @Column(nullable = false)
     private double longueur;
     @Column(nullable = false )
@@ -42,6 +43,7 @@ public class Colis extends AuditModel implements Serializable {
     private double largeur;
     @Column(nullable = false )
     private double poids;
+
 
 
 
@@ -66,7 +68,7 @@ public class Colis extends AuditModel implements Serializable {
     public Colis() {
     }
 
-    public Colis(Long id, Double prix, String titre, String description, String adresse_recup, String adresse_liv, String code_sec, String statut, double longueur, double largeur, double poids, double hauteur, String img_av_emball, String img_ap_emball, String date_echeance, Utilisateur client) {
+    public Colis(Long id, Double prix, String titre, String description, String adresse_recup, String adresse_liv, String code_sec, String statut,String engin, double longueur, double largeur, double poids, double hauteur, String img_av_emball, String img_ap_emball, String date_echeance, Utilisateur client) {
         this.id = id;
         this.prix = prix;
         this.titre = titre;
@@ -75,6 +77,7 @@ public class Colis extends AuditModel implements Serializable {
         this.adresse_liv = adresse_liv;
         this.code_sec = code_sec;
         this.statut = statut;
+        this.engin = engin;
         this.longueur = longueur;
         this.largeur = largeur;
         this.poids = poids;
@@ -84,6 +87,15 @@ public class Colis extends AuditModel implements Serializable {
         this.date_echeance = date_echeance;
         this.client = client;
     }
+
+    public String getEngin() {
+        return engin;
+    }
+
+    public void setEngin(String engin) {
+        this.engin = engin;
+    }
+
 
     public double getLongueur() {
         return longueur;
