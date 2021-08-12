@@ -12,6 +12,8 @@ public class SinglePaiementRequest {
 
     @NotBlank
     private String titre;
+    @NotBlank
+    private String typeP;
 
     public int getMontant() {
         return montant;
@@ -23,5 +25,9 @@ public class SinglePaiementRequest {
 
     public String getTitre() {
         return titre;
+    }
+
+    public String getTypeP() {
+        return typeP;
     }
 }

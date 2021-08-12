@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PaiementService {
     @Autowired
     PaiementRepository paiementRepository;
-    public void  savePaiementToDB(int montant , Utilisateur createur , Colis colis)
+    public void  savePaiementToDB(int montant ,String typeP, Utilisateur createur , Colis colis)
     {
 
         Paiement p = new Paiement();
@@ -29,6 +29,7 @@ public class PaiementService {
             e.printStackTrace();
         }*/
         p.setMontant(montant);
+        p.setTypep(typeP);
         p.setClient(createur);
         paiementRepository.save(p);
     }

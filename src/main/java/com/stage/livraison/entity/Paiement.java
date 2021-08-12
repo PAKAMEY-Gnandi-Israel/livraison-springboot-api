@@ -19,6 +19,8 @@ public class Paiement  extends AuditModel implements Serializable {
     private Long id;
     @Column(nullable = false )
     private int montant;
+    @Column(nullable = false )
+    private String typep;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "utilisateur_id", nullable = false)
@@ -34,11 +36,20 @@ public class Paiement  extends AuditModel implements Serializable {
     public Paiement() {
     }
 
-    public Paiement(Long id, int montant, Utilisateur client, Colis colis) {
+    public Paiement(Long id, int montant,String typep, Utilisateur client, Colis colis) {
         this.id = id;
         this.montant = montant;
+        this.typep = typep;
         this.client = client;
         this.colis = colis;
+    }
+
+    public String getTypep() {
+        return typep;
+    }
+
+    public void setTypep(String typep) {
+        this.typep = typep;
     }
 
     public Long getId() {

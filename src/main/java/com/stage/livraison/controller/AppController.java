@@ -79,7 +79,7 @@ public class AppController {
 
         Utilisateur cli = utilisateurRepository.getUserByEmail(singlep.getEmail());
         Colis colis = missionRepository.getColisByTitre(singlep.getTitre() );
-       paiementService.savePaiementToDB(singlep.getMontant(),cli,colis);
+       paiementService.savePaiementToDB(singlep.getMontant(),singlep.getTypeP(),cli,colis);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
