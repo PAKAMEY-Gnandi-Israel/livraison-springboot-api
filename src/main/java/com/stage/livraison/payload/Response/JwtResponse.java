@@ -16,10 +16,11 @@ public class JwtResponse {
     private  String sexe;
     private int actif= 0;
     private String birthday;
-
+    private String enginU;
+    private String img_carte;
     private List<String> roles;
 
-    public JwtResponse(String accessToken, Long id, String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthday, List<String> roles) {
+    public JwtResponse(String accessToken, Long id, String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthday,String enginU,String img_carte, List<String> roles) {
         this.token = accessToken;
         this.id = id;
         this.nom = nom;
@@ -31,11 +32,27 @@ public class JwtResponse {
         this.sexe = sexe;
         this.actif = actif;
         this.birthday = birthday;
+        this.enginU = enginU;
+        this.img_carte = img_carte;
         this.roles = roles;
 
     }
 
+    public String getImg_carte() {
+        return img_carte;
+    }
 
+    public void setImg_carte(String img_carte) {
+        this.img_carte = img_carte;
+    }
+
+    public String getEnginU() {
+        return enginU;
+    }
+
+    public void setEnginU(String enginU) {
+        this.enginU = enginU;
+    }
 
     public String getNom() {
         return nom;

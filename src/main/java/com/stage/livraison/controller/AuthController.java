@@ -78,6 +78,8 @@ public class AuthController {
                 userDetails.getSexe(),
                 userDetails.getActif(),
                 userDetails.getBirthday(),
+                userDetails.getEnginU(),
+                userDetails.getImg_carte(),
 
                 roles));
 
@@ -95,7 +97,8 @@ public class AuthController {
 
         // Create new user's account
         Utilisateur user = new Utilisateur(signUpRequest.getNom(),signUpRequest.getPrenom(),signUpRequest.getEmail(),signUpRequest.getAdresse(),
-                encoder.encode(signUpRequest.getPassword()),signUpRequest.getSituation_pro(),signUpRequest.getSexe(),signUpRequest.getActif(),signUpRequest.getBirthday() , signUpRequest.getNum_tel()
+                encoder.encode(signUpRequest.getPassword()),signUpRequest.getSituation_pro(),signUpRequest.getSexe(),signUpRequest.getActif(),signUpRequest.getBirthday() , signUpRequest.getNum_tel(),
+                signUpRequest.getEnginU(),signUpRequest.getImg_carte()
       );
 
         Set<String> strRoles = signUpRequest.getRole();

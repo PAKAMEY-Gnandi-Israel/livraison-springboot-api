@@ -47,7 +47,12 @@ public class Utilisateur extends AuditModel  implements Serializable {
     private String birthDay;
     @Column(nullable = false)
     private  int num_tel;
+    @Column(nullable = false )
+    private  String enginU;
 
+
+    @Column(columnDefinition = "TEXT",nullable = false )
+    private String img_carte;
 
     @ManyToMany()
     @JoinTable(name="utilisateur_roles",
@@ -57,7 +62,7 @@ public class Utilisateur extends AuditModel  implements Serializable {
     public Utilisateur() {
     }
 
-    public Utilisateur(String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthDay, int num_tel) {
+    public Utilisateur(String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthDay, int num_tel,String enginU, String img_carte) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -68,6 +73,20 @@ public class Utilisateur extends AuditModel  implements Serializable {
         this.actif = actif;
         this.birthDay = birthDay;
         this.num_tel = num_tel;
+        this.enginU = enginU;
+        this.img_carte = img_carte;
+    }
+
+    public String getImg_carte() {
+        return img_carte;
+    }
+
+    public String getEnginU() {
+        return enginU;
+    }
+
+    public void setEnginU(String enginU) {
+        this.enginU = enginU;
     }
 
     public String getBirthDay() {

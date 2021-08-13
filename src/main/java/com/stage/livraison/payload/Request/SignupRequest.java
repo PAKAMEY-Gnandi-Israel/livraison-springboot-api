@@ -41,8 +41,20 @@ public class SignupRequest {
     private String birthday;
     @NotBlank
     private int num_tel;
+    @NotBlank
+    private String enginU;
+    @NotBlank
+    private String img_carte;
 
     private Set<String> role;
+
+    public String getEnginU() {
+        return enginU;
+    }
+
+    public String getImg_carte() {
+        return img_carte;
+    }
 
     public String getNom() {
         return nom;

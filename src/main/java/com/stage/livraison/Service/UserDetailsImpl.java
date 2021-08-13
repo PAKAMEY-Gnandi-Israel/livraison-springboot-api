@@ -34,10 +34,11 @@ public class UserDetailsImpl implements UserDetails {
 
     private String birthday;
     private int num_tel;
-
+    private String enginU;
+    private String img_carte;
     private Collection<? extends  GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthday, int num_tel,Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String nom, String prenom, String email, String adresse, String password, String situation_pro, String sexe, int actif, String birthday, int num_tel,String enginU,String img_carte,Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -50,6 +51,8 @@ public class UserDetailsImpl implements UserDetails {
         this.birthday = birthday;
         this.authorities = authorities;
         this.num_tel =  num_tel;
+        this.enginU = enginU;
+        this.img_carte = img_carte;
     }
 
     public static UserDetailsImpl build(Utilisateur user) {
@@ -69,6 +72,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getActif(),
                 user.getBirthDay(),
                 user.getNum_tel(),
+                user.getEnginU(),
+                user.getImg_carte(),
                 authorities);
     }
 
@@ -114,6 +119,14 @@ public class UserDetailsImpl implements UserDetails {
 
     public int getNum_tel() {
         return num_tel;
+    }
+
+    public String getImg_carte() {
+        return img_carte;
+    }
+
+    public String getEnginU() {
+        return enginU;
     }
 
     @Override
